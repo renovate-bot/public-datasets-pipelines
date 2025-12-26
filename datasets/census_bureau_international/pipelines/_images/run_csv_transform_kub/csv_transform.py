@@ -128,9 +128,9 @@ def add_key(df: pd.DataFrame, key_list: list) -> pd.DataFrame:
     df["key"] = ""
     for key in key_list:
         df["key"] = df.apply(
-            lambda x: str(x[key])
-            if not str(x["key"])
-            else str(x["key"]) + "-" + str(x[key]),
+            lambda x: (
+                str(x[key]) if not str(x["key"]) else str(x["key"]) + "-" + str(x[key])
+            ),
             axis=1,
         )
     df["key_val"] = df["key"]

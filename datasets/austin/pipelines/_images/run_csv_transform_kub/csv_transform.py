@@ -450,9 +450,11 @@ def format_date_time(
         out_fmt = dt_list_item[2]
         logging.info(f"Converting Date Format {col_nm}")
         df[col_nm] = df[col_nm].apply(
-            lambda x: ""
-            if (not str(x) or str(x) == "nan")
-            else datetime.datetime.strptime(str(x), in_fmt).strftime(out_fmt)
+            lambda x: (
+                ""
+                if (not str(x) or str(x) == "nan")
+                else datetime.datetime.strptime(str(x), in_fmt).strftime(out_fmt)
+            )
         )
     return df
 

@@ -1707,9 +1707,11 @@ def slice_column(
             if dest_col == "name":
                 # Work-around for Alabama - bad data
                 df[dest_col] = df[src_col].apply(
-                    lambda x: "ALABAMA"
-                    if str(x)[0:2] == "AL"
-                    else str(x)[int(start_pos) :].strip()
+                    lambda x: (
+                        "ALABAMA"
+                        if str(x)[0:2] == "AL"
+                        else str(x)[int(start_pos) :].strip()
+                    )
                 )
             else:
                 if end_pos == "":

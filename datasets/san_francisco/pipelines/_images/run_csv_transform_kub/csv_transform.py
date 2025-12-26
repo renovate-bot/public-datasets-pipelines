@@ -640,12 +640,12 @@ def process_sf_muni_stop_times(
     df_stop_times = df_replace_values(
         df=df_stop_times, starts_with_pattern_list=starts_with_pattern_list
     )
-    df_stop_times.loc[
-        df_stop_times["arrives_next_day"] == "", "arrives_next_day"
-    ] = "FALSE"
-    df_stop_times.loc[
-        df_stop_times["departs_next_day"] == "", "departs_next_day"
-    ] = "FALSE"
+    df_stop_times.loc[df_stop_times["arrives_next_day"] == "", "arrives_next_day"] = (
+        "FALSE"
+    )
+    df_stop_times.loc[df_stop_times["departs_next_day"] == "", "departs_next_day"] = (
+        "FALSE"
+    )
     df_stop_times = reorder_headers(
         df=df_stop_times, output_headers_list=reorder_headers_list
     )
@@ -939,9 +939,11 @@ def handle_tripdata(
     df_trip_data.set_index("key", inplace=True)
     df = pd.concat([df_trip_data, df_tripdata], ignore_index=True, sort=True)
     df["subscriber_type_new"] = df.apply(
-        lambda x: str(x.subscription_type)
-        if not str(x.subscriber_type)
-        else str(x.subscriber_type),
+        lambda x: (
+            str(x.subscription_type)
+            if not str(x.subscriber_type)
+            else str(x.subscriber_type)
+        ),
         axis=1,
     )
     df = df.drop(columns=["subscriber_type"])
@@ -1446,9 +1448,11 @@ def extract_longitude_from_geom(
 ) -> str:
     logging.info(f"Extracting longitude field {lon_field_name} from {geom_field_name}")
     df[lon_field_name] = df[geom_field_name].apply(
-        lambda x: str(x).replace("POINT (", "").replace(")", "").split(" ", 1)[0]
-        if str(x) != ""
-        else "POINT (  )"
+        lambda x: (
+            str(x).replace("POINT (", "").replace(")", "").split(" ", 1)[0]
+            if str(x) != ""
+            else "POINT (  )"
+        )
     )
     return df
 
@@ -1460,9 +1464,11 @@ def extract_latitude_from_geom(
 ) -> str:
     logging.info(f"Extracting latitude field {lat_field_name} from {geom_field_name}")
     df[lat_field_name] = df[geom_field_name].apply(
-        lambda x: str(x).replace("POINT (", "").replace(")", "").split(" ", 1)[-1]
-        if str(x) != ""
-        else "POINT (  )"
+        lambda x: (
+            str(x).replace("POINT (", "").replace(")", "").split(" ", 1)[-1]
+            if str(x) != ""
+            else "POINT (  )"
+        )
     )
     return df
 

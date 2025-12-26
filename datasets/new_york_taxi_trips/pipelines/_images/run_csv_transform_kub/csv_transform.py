@@ -447,9 +447,9 @@ def process_chunk(
     df = format_date_time(df, "pickup_datetime", "strftime", "%Y-%m-%d %H:%M:%S")
     df = format_date_time(df, "dropoff_datetime", "strftime", "%Y-%m-%d %H:%M:%S")
     df["passenger_count"] = df["passenger_count"].apply(
-        lambda x: str(int(float(str(x))))
-        if str(x).replace(".", "", 1).isdigit()
-        else ""
+        lambda x: (
+            str(int(float(str(x)))) if str(x).replace(".", "", 1).isdigit() else ""
+        )
     )
     df = remove_null_rows(df)
     df = df[output_headers]
